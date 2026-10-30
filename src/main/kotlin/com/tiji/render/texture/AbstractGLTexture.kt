@@ -3,13 +3,9 @@ package com.tiji.render.texture
 import com.tiji.render.Resource
 import com.tiji.render.Utils
 import org.lwjgl.opengl.GL11C
-import org.lwjgl.opengl.GL11C.glTexImage2D
 import org.lwjgl.opengl.GL13C
-import org.lwjgl.opengl.GL30
 import org.lwjgl.opengl.GL30C
 import java.nio.ByteBuffer
-import kotlin.math.ln
-import kotlin.math.min
 
 /**
  * Wrapper for OpenGL textures.
@@ -53,6 +49,7 @@ abstract class AbstractGLTexture : Resource, Resizable {
                 type: Int,
                 format: Int) : super() {
         Utils.ensureThread()
+        if (!stat1c) Utils.ensureOpenGLVersion(3 to 0)
 
         this.internalFormat = internalFormat
         this.format = format
@@ -61,11 +58,9 @@ abstract class AbstractGLTexture : Resource, Resizable {
         this.width = width
         this.height = height
 
-        val minSize = min(width, height)
-
         _textureId = GL11C.glGenTextures()
         bind()
-        glTexImage2D(
+        GL11C.glTexImage2D(
             GL11C.GL_TEXTURE_2D,
             0,
             internalFormat,
@@ -101,7 +96,7 @@ abstract class AbstractGLTexture : Resource, Resizable {
         bind()
         this.width = width
         this.height = height
-        glTexImage2D(
+        GL11C.glTexImage2D(
             GL11C.GL_TEXTURE_2D,
             0,
             internalFormat,
