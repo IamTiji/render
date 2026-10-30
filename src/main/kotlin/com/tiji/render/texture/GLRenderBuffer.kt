@@ -46,4 +46,9 @@ class GLRenderBuffer(
 
         GL30C.glBindRenderbuffer(GL30C.GL_RENDERBUFFER, 0)
     }
+
+    override fun destroy() {
+        super.destroy()
+        GL30C.glDeleteRenderbuffers(this.rbo)
+    }
 }
