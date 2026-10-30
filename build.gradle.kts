@@ -2,7 +2,7 @@ plugins {
     kotlin("jvm") version "2.2.0"
 }
 
-group = "com.tiji"
+group = "cc.tijiisreal"
 version = "1.0"
 
 repositories {
