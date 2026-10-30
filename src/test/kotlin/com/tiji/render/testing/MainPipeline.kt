@@ -5,18 +5,19 @@ import com.tiji.render.mesh.StaticMesh
 import com.tiji.render.pipeline.AbstractPipeline
 import com.tiji.render.pipeline.ShaderProgram
 import com.tiji.render.vao.VertexStructureBuilder
+import glm_.vec2.Vec2
+import glm_.vec4.Vec4
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL11C.GL_FLOAT
-import org.lwjgl.opengl.GL20C
 
 class MainPipeline : AbstractPipeline() {
     override fun render() {
         beforeUniforms()
 
-        GL20C.glUniform1f(program.getUniformLocation("iTime"), System.nanoTime()/1e9f)
-        GL20C.glUniform2f(program.getUniformLocation("iResolution"), Window.width.toFloat(), Window.height.toFloat())
+        program["iTime"] = System.nanoTime()/1e9f
+        program["iResolution"] = Vec2(Window.width.toFloat(), Window.height.toFloat())
         val mousePos = Window.getCursorPosition().map { it.toFloat() }
-        GL20C.glUniform4f(program.getUniformLocation("iMouse"), mousePos[0], mousePos[1],0f, 0f)
+        program["iMouse"] = Vec4(mousePos[0], mousePos[1], 0f, 0f)
 
         afterUniforms()
     }
