@@ -3,6 +3,7 @@ package cc.tijiisreal.render.pipeline
 import cc.tijiisreal.render.Resource
 import cc.tijiisreal.render.Utils
 import cc.tijiisreal.render.Window
+import cc.tijiisreal.render.texture.GLTexture
 import glm_.mat2x2.Mat2
 import glm_.mat3x3.Mat3
 import glm_.mat4x4.Mat4
@@ -128,4 +129,7 @@ class ShaderProgram(vertexShaderPath: String, fragmentShaderPath: String) : Reso
     operator fun set(name: String, value: Mat4) = GL20C.glUniformMatrix4fv(getUniformLocation(name), false, value.toFloatArray())
     operator fun set(name: String, value: Mat3) = GL20C.glUniformMatrix3fv(getUniformLocation(name), false, value.toFloatArray())
     operator fun set(name: String, value: Mat2) = GL20C.glUniformMatrix2fv(getUniformLocation(name), false, value.toFloatArray())
+
+    // -- Texture --
+    operator fun set(name: String, value: GLTexture) = GL20C.glUniform1i(getUniformLocation(name), value.boundChannel)
 }

@@ -133,6 +133,7 @@ abstract class AbstractGLTexture : Resource, Resizable {
         GL11C.glBindTexture(GL11C.GL_TEXTURE_2D, 0)
     }
 
+    var boundChannel: Int = -1
     /**
      * Binds the texture to texture slot
      *
@@ -142,7 +143,9 @@ abstract class AbstractGLTexture : Resource, Resizable {
     fun bindToChannel(channel: Int) {
         Utils.ensureThread()
 
+        boundChannel = channel
         GL13C.glActiveTexture(GL13C.GL_TEXTURE0 + channel)
+
         bind()
     }
 
