@@ -4,7 +4,7 @@ import java.io.IOException
 
 object Utils {
     fun expect(actual: Any?, expected: Any?, message: String?) {
-        if (actual == expected) {
+        if (actual != expected) {
             throw AssertionError("Expected: $expected, but got: $actual. $message")
         }
     }
