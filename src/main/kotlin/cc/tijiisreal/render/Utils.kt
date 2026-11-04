@@ -17,7 +17,7 @@ object Utils {
 
     fun readResource(path: String): ByteArray {
         try {
-            _root_ide_package_.cc.tijiisreal.render.Window.clazz.getResourceAsStream(path).use { inputStream ->
+            Window.clazz.getResourceAsStream(path).use { inputStream ->
                 requireNotNull(inputStream) { "Resource not found: $path" }
                 return inputStream.readBytes()
             }
@@ -31,7 +31,7 @@ object Utils {
     }
 
     fun ensureOpenGLVersion(minVersion: Pair<Int, Int>) {
-        val realVersion = _root_ide_package_.cc.tijiisreal.render.Window.glVersion
+        val realVersion = Window.glVersion
 
         if (realVersion.first < minVersion.first ||
             (realVersion.first == minVersion.first && realVersion.second < minVersion.second)) {
