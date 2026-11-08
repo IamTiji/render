@@ -47,6 +47,30 @@ sealed class AbstractGLBuffer(val type: Int) : Resource() {
         GL15C.glBindBuffer(type, 0)
     }
 
+    /**
+     * Bind this buffer as different buffer type
+     *
+     * @since 1.0
+     */
+    fun bindAs(type: Int) {
+        Utils.ensureThread()
+        Utils.ensureOpenGLVersion(1 to 5)
+
+        GL15C.glBindBuffer(type, bufferId)
+    }
+
+    /**
+     * Bind this buffer for shader to read
+     *
+     * @since 1.0
+     */
+    fun bindBufferBase(location: Int) {
+        Utils.ensureThread()
+        Utils.ensureOpenGLVersion(3 to 0)
+
+        GL30C.glBindBufferBase(type, location, bufferId)
+    }
+
     override fun destroy() {
         super.destroy()
 
