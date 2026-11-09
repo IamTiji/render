@@ -3,6 +3,7 @@ package cc.tijiisreal.render.buffer
 import cc.tijiisreal.render.Resource
 import cc.tijiisreal.render.Utils
 import org.lwjgl.opengl.GL15C
+import org.lwjgl.opengl.GL30C
 import java.nio.ByteBuffer
 
 sealed class AbstractGLBuffer(val type: Int) : Resource() {
