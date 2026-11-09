@@ -40,6 +40,7 @@ object Window: Resource() {
     val width: Int get() = _width
     val height: Int get() = _height
     val diagonal: Double get() = _diagonal
+    val aspectRatio: Double get() = _width.toDouble() / _height.toDouble()
 
     var debug = false
 
