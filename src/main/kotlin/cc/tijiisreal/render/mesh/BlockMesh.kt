@@ -22,11 +22,14 @@ class BlockMesh(val maxIndicesCount: Int,
                 val maxVertexSize: Int,
                 useBufferStorage: Boolean,
                 val vertexStructure: VertexStructure) : Mesh() {
+    override val vao: GLVertexArray
+        get() = _vao
+
     private var amount = 0
 
     private val ebo: AbstractGLBuffer
     private val vbo: AbstractGLBuffer
-    private val vao: GLVertexArray = GLVertexArray(vertexStructure)
+    private val _vao: GLVertexArray = GLVertexArray(vertexStructure)
 
     private val indicesStorageFormat: Int
     private val perIndicesBytes: Int
@@ -35,9 +38,9 @@ class BlockMesh(val maxIndicesCount: Int,
         Utils.ensureThread()
         Utils.ensureOpenGLVersion(2 to 0)
 
-        vao.bind()
+        _vao.bind()
         GL20C.glDrawElements(GL15C.GL_TRIANGLES, amount, indicesStorageFormat, 0)
-        vao.unbind()
+        _vao.unbind()
     }
 
     init {
@@ -66,12 +69,12 @@ class BlockMesh(val maxIndicesCount: Int,
         }
         vbo.bind()
 
-        vao.attach(ebo)
-        vao.attach(vbo)
+        _vao.attach(ebo)
+        _vao.attach(vbo)
 
-        vao.dataReady()
+        _vao.dataReady()
 
-        attach(vao)
+        attach(_vao)
     }
 
     fun replace(vertexData: ByteBuffer,

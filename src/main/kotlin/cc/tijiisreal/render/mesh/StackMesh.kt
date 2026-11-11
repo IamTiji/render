@@ -26,10 +26,13 @@ class StackMesh(val maxObjects: Int,
                 val perObjectIndices: Int,
                 useBufferStorage: Boolean,
                 val vertexStructure: VertexStructure) : Mesh() {
+    override val vao: GLVertexArray
+        get() = _vao
+
     private var stackPos = 0
     private val eboStack: AbstractGLBuffer
     private val vboStack: AbstractGLBuffer
-    private val vao: GLVertexArray = GLVertexArray(vertexStructure)
+    private val _vao: GLVertexArray = GLVertexArray(vertexStructure)
     private val indicesStorageFormat: Int
     private val perIndicesBytes: Int
 
@@ -41,10 +44,10 @@ class StackMesh(val maxObjects: Int,
         Utils.ensureThread()
         Utils.ensureOpenGLVersion(2 to 0)
 
-        vao.bind()
+        _vao.bind()
         flushPendingObjects()
         GL20C.glDrawElements(GL15C.GL_TRIANGLES, stackPos*perObjectIndices, indicesStorageFormat, 0)
-        vao.unbind()
+        _vao.unbind()
     }
 
     override fun destroy() {
@@ -82,12 +85,12 @@ class StackMesh(val maxObjects: Int,
         vboStack.bind()
         pendingData = BufferUtils.createByteBuffer(size)
 
-        vao.attach(eboStack)
-        vao.attach(vboStack)
+        _vao.attach(eboStack)
+        _vao.attach(vboStack)
 
-        vao.dataReady()
+        _vao.dataReady()
 
-        attach(vao)
+        attach(_vao)
     }
 
     /**

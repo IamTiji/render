@@ -26,7 +26,10 @@ class StaticMesh(
     useBufferStorage: Boolean,
     vertexStructure: VertexStructure
 ): Mesh() {
-    private val vao = GLVertexArray(vertexStructure)
+    override val vao: GLVertexArray
+        get() = _vao
+
+    private val _vao = GLVertexArray(vertexStructure)
     private val ebo: AbstractGLBuffer
     private val vbo: AbstractGLBuffer
     private val indicesStorageFormat: Int
@@ -77,16 +80,16 @@ class StaticMesh(
         }
         vbo.bind()
 
-        vao.attach(ebo)
-        vao.attach(vbo)
+        _vao.attach(ebo)
+        _vao.attach(vbo)
 
-        vao.dataReady()
+        _vao.dataReady()
 
-        attach(vao)
+        attach(_vao)
     }
 
     override fun draw() {
-        vao.bind()
+        _vao.bind()
         GL20C.glDrawElements(GL15C.GL_TRIANGLES, indicesCount, indicesStorageFormat, 0)
     }
 
