@@ -47,9 +47,13 @@ class ShaderProgram(vertexShaderPath: String, fragmentShaderPath: String) : Reso
         require(GL20C.glGetProgrami(programID, GL20C.GL_LINK_STATUS) != 0)
                 { "Failed to link shader program: ${getProgramLog()}" }
 
-        GL20C.glValidateProgram(programID)
-        require(GL20C.glGetProgrami(programID, GL20C.GL_VALIDATE_STATUS) != 0)
-                { "Failed to validate shader program: ${getProgramLog()}" }
+        // Intel's shader validation seems broken
+        val isIntel = GL20C.glGetString(GL20C.GL_VENDOR)?.lowercase()?.contains("intel")?: false
+        if (Window.debug && !isIntel) {
+            GL20C.glValidateProgram(programID)
+            require(GL20C.glGetProgrami(programID, GL20C.GL_VALIDATE_STATUS) != 0)
+            { "Failed to validate shader program: ${getProgramLog()}" }
+        }
 
         GL20C.glDeleteShader(vertexShaderID)
         GL20C.glDeleteShader(fragmentShaderID)
