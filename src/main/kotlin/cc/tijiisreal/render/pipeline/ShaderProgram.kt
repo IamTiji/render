@@ -44,21 +44,19 @@ class ShaderProgram(vertexShaderPath: String, fragmentShaderPath: String) : Reso
         GL20C.glAttachShader(programID, fragmentShaderID)
 
         GL20C.glLinkProgram(programID)
-        Utils.expectNot(
-            GL20C.glGetProgrami(programID, GL20C.GL_LINK_STATUS),
-            0,
-            "Failed to link shader program"
-        )
+        require(GL20C.glGetProgrami(programID, GL20C.GL_LINK_STATUS) != 0)
+                { "Failed to link shader program: ${getProgramLog()}" }
 
         GL20C.glValidateProgram(programID)
-        Utils.expectNot(
-            GL20C.glGetProgrami(programID, GL20C.GL_VALIDATE_STATUS),
-            0,
-            "Failed to validate shader program"
-        )
+        require(GL20C.glGetProgrami(programID, GL20C.GL_VALIDATE_STATUS) != 0)
+                { "Failed to validate shader program: ${getProgramLog()}" }
 
         GL20C.glDeleteShader(vertexShaderID)
         GL20C.glDeleteShader(fragmentShaderID)
+    }
+
+    private fun getProgramLog(): String {
+        return GL20C.glGetProgramInfoLog(programID)
     }
 
     private fun compileShader(type: Int, source: String): Int {
